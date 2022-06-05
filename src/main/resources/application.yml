@@ -1,0 +1,22 @@
+server:
+  port: 8180
+
+spring:
+  datasource:
+    url: jdbc:h2:file:d:/projects/data/simpleorg/data.dat
+    username: sa
+    password: password
+    driverClassName: org.h2.Driver
+  jpa:
+    spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+  h2:
+    console.enabled: true
+
+simpleorgapp:
+  security:
+    passlength: 4
+    defAdmin: dlucchesi@gmail.com
+    defPass: 1234@
+
