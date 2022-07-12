@@ -1,11 +1,12 @@
 package com.dlucchesi.simpleorgapp.model.imp;
 
 import com.dlucchesi.simpleorgapp.model.User;
-import com.dlucchesi.simpleorgapp.model.UserHasFunction;
 import lombok.Data;
 
-import javax.persistence.*;
-import java.util.Set;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 @Data
 @Entity(name = "user")
@@ -17,8 +18,6 @@ public class UserImp extends BaseSimpleOrgEntityImp implements com.dlucchesi.sim
     private String login;
     @Column(nullable = false)
     private String passwd;
-    @OneToMany(mappedBy = "user", targetEntity = FunctionImp.class)
-    private Set<UserHasFunction> functions;
 
     @Override
     public boolean canEqual(Object userImp) {
@@ -31,6 +30,6 @@ public class UserImp extends BaseSimpleOrgEntityImp implements com.dlucchesi.sim
                 "id=" + id +
                 ", login='" + login + '\'' +
                 ", passwd='" + "*****" + '\'' +
-                '}';
+            '}';
     }
 }
