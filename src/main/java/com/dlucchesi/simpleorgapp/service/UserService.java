@@ -15,9 +15,9 @@ public interface UserService {
 
     Optional<User> save(User user);
 
-    User create();
+    Boolean logicalDelete(User user);
 
-    UserImp validateInstance(User user);
+    User create();
 
     Boolean validate(User user);
 
