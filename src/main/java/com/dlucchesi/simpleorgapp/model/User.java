@@ -1,13 +1,10 @@
 package com.dlucchesi.simpleorgapp.model;
 
-public interface User {
-    Long getId();
+public interface User extends BaseSimpleOrgEntity {
 
     String getLogin();
 
     String getPasswd();
-
-    void setId(Long id);
 
     void setLogin(String login);
 

@@ -80,12 +80,25 @@ public class UserServiceImp implements com.dlucchesi.simpleorgapp.service.UserSe
     }
 
     @Override
+    public Boolean logicalDelete(User user){
+        Boolean ret = Boolean.FALSE;
+        if (!isNull(user)){
+            user.setIsDeleted(true);
+            user.setIsActive(false);
+            Optional<User> fromDb = save(user);
+            if (fromDb.isPresent()){
+                ret = Boolean.TRUE;
+            }
+        }
+        return ret;
+    }
+
+    @Override
     public User create(){
         return (User) new UserImp();
     }
 
-    @Override
-    public UserImp validateInstance(User user) {
+    protected UserImp validateInstance(User user) {
         if (user instanceof UserImp){
             return (UserImp) user;
         }
@@ -96,21 +109,26 @@ public class UserServiceImp implements com.dlucchesi.simpleorgapp.service.UserSe
     public Boolean validate(User user) {
         Boolean ret = Boolean.FALSE;
         if (!isNull(user)){
-            if (!isNull(user.getLogin()) && user.getLogin().trim().length() > 0){
-                if (!isNull(user.getLogin()) && user.getLogin().trim().length() > 0){
-                    if (user.getLogin().trim().length() >= passLength){
-                        ret = Boolean.TRUE;
+            UserImp u = validateInstance(user);
+            if (!isNull(u)) {
+                if (!isNull(u.getLogin()) && u.getLogin().trim().length() > 0){
+                    if (!isNull(u.getLogin()) && u.getLogin().trim().length() > 0){
+                        if (u.getLogin().trim().length() >= passLength){
+                            ret = Boolean.TRUE;
+                        } else {
+                            log.warn("User password can't be applied! : ", u);
+                        }
                     } else {
-                        log.warn("User password can't be applied! : ", user);
+                        log.warn("User password empty! : ", u);
                     }
                 } else {
-                    log.warn("User password empty! : ", user);
+                    log.warn("User login empty! : ", u);
                 }
             } else {
-                log.warn("User login empty! : ", user);
+                log.error("Wrong object instance Function: {}", user.getClass().toString());
             }
         } else {
-            log.warn("User null!");
+            log.warn("User empty!");
         }
         return ret;
     }
